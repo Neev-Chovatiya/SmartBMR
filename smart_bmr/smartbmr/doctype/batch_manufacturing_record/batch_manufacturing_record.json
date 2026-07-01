@@ -1,0 +1,112 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-01 14:19:49.480542",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_tdy0",
+  "master_formula",
+  "target_item",
+  "batch_number",
+  "material_consumption_section",
+  "materials_log",
+  "manufacturing_steps_section",
+  "process_log",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_tdy0",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "master_formula",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Master Formula",
+   "options": "Master Formula Record",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "master_formula.target_item",
+   "fieldname": "target_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Item",
+   "options": "Item",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "batch_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Batch Number",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "material_consumption_section",
+   "fieldtype": "Section Break",
+   "label": "Material Consumption"
+  },
+  {
+   "fieldname": "materials_log",
+   "fieldtype": "Table",
+   "label": "Materials Log",
+   "options": "BMR Material Log"
+  },
+  {
+   "fieldname": "manufacturing_steps_section",
+   "fieldtype": "Section Break",
+   "label": "Manufacturing Steps"
+  },
+  {
+   "fieldname": "process_log",
+   "fieldtype": "Table",
+   "label": "Process Log",
+   "options": "BMR Process Log"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Batch Manufacturing Record",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-01 18:40:58.657214",
+ "modified_by": "Administrator",
+ "module": "SmartBMR",
+ "name": "Batch Manufacturing Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

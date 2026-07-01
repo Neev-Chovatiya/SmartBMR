@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-01 13:30:25.509987",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_g1zl",
+  "target_item",
+  "version",
+  "standard_batch_size",
+  "recipe_details_section",
+  "raw_materials",
+  "process_steps_section",
+  "operating_steps",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_g1zl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "target_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Version",
+   "reqd": 1
+  },
+  {
+   "fieldname": "standard_batch_size",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Standard Batch Size",
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipe_details_section",
+   "fieldtype": "Section Break",
+   "label": "Recipe Details"
+  },
+  {
+   "fieldname": "raw_materials",
+   "fieldtype": "Table",
+   "label": "Raw Materials",
+   "options": "MFR Raw Material",
+   "reqd": 1
+  },
+  {
+   "fieldname": "process_steps_section",
+   "fieldtype": "Section Break",
+   "label": "Process Steps"
+  },
+  {
+   "fieldname": "operating_steps",
+   "fieldtype": "Table",
+   "label": "Operating Steps",
+   "options": "MFR Process Step",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Master Formula Record",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-07-01 14:06:10.621880",
+ "modified_by": "Administrator",
+ "module": "SmartBMR",
+ "name": "Master Formula Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
