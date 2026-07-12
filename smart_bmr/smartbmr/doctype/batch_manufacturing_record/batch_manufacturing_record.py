@@ -4,6 +4,34 @@ from frappe.model.document import Document
 class BatchManufacturingRecord(Document):
     pass
 
+def send_anomaly_alert(bmr_id, temperature):
+    """Sends an automated email alert safely without breaking the main execution pipeline."""
+    qa_email = "admin@example.com" 
+    subject = f"CRITICAL: Temperature Anomaly Detected on BMR {bmr_id}"
+    
+    message = f"""
+    <h3>Production Threshold Breach Alert</h3>
+    <p>An automated IoT telemetry sensor has flagged a critical process deviation.</p>
+    <ul>
+        <li><strong>Batch Record ID:</strong> {bmr_id}</li>
+        <li><strong>Logged Temperature:</strong> <span style="color: red; font-weight: bold;">{temperature}°C</span></li>
+        <li><strong>Status:</strong> Defect logged to the database ledger automatically.</li>
+    </ul>
+    <p>Please check the administrative dashboard immediately to verify batch integrity.</p>
+    """
+    
+    try:
+        frappe.sendmail(
+            recipients=[qa_email],
+            subject=subject,
+            message=message
+        )
+    except frappe.OutgoingEmailError:
+        frappe.log_error(
+            title="SmartBMR Mail System Alert Skipped",
+            message=f"Email alert triggered for BMR {bmr_id} ({temperature}°C), but default outgoing email account is not set up in the desk."
+        )
+
 @frappe.whitelist(allow_guest=True)
 def log_machine_temperature(bmr_id, temp_reading):
     doc = frappe.get_doc("Batch Manufacturing Record", bmr_id)
@@ -32,6 +60,10 @@ def log_machine_temperature(bmr_id, temp_reading):
         should_log = True
         log_step = "ANOMALY"
         log_instruction = "CRITICAL OUT-OF-SPEC TEMPERATURE DETECTED"
+        
+        if not was_last_anomaly:
+            send_anomaly_alert(bmr_id, current_temp)
+        
     else:
         if not last_row:
             should_log = True
@@ -42,7 +74,7 @@ def log_machine_temperature(bmr_id, temp_reading):
 
     if should_log:
         doc.append("process_log", {
-            "step_number": log_step, 
+            "step_number": log_step,
             "instructions": log_instruction,
             "minimum_temp": MIN_SAFE_TEMP,
             "maximum_temp": MAX_SAFE_TEMP,
