@@ -43,6 +43,15 @@ def log_machine_temperature(bmr_id, temp_reading):
     MIN_SAFE_TEMP = 36.0
     MAX_SAFE_TEMP = 39.0
     
+    log_tank = frappe.get_doc({
+        "doctype": "IoT Temperature Log",
+        "batch_record_id": bmr_id,
+        "temperature": current_temp,
+        "timestamp": frappe.utils.now_datetime()
+    })
+    log_tank.insert(ignore_permissions=True)
+    frappe.db.commit() 
+    
     is_current_anomaly = (current_temp < MIN_SAFE_TEMP or current_temp > MAX_SAFE_TEMP)
     
     last_row = doc.process_log[-1] if doc.process_log else None
@@ -82,6 +91,6 @@ def log_machine_temperature(bmr_id, temp_reading):
         })
         doc.save(ignore_permissions=True)
         frappe.db.commit()
-        return {"status": "logged", "message": f"State captured: {log_step} at {current_temp}°C"}
+        return {"status": "logged", "message": f"Raw log captured & State tracked: {log_step} at {current_temp}°C"}
         
-    return {"status": "ignored", "message": "Stable condition continues. Log suppressed."}
+    return {"status": "ignored", "message": f"Raw log captured & Stable condition continues. Process log suppressed."}

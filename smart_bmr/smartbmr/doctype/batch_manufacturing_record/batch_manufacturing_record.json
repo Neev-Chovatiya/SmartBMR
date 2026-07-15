@@ -12,6 +12,7 @@
   "material_consumption_section",
   "materials_log",
   "manufacturing_steps_section",
+  "telemetry_dashboard",
   "process_log",
   "amended_from"
  ],
@@ -78,13 +79,18 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "telemetry_dashboard",
+   "fieldtype": "HTML",
+   "label": "Telemetry Dashboard"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-09 18:41:35.214735",
+ "modified": "2026-07-15 12:46:58.664191",
  "modified_by": "Administrator",
  "module": "SmartBMR",
  "name": "Batch Manufacturing Record",
