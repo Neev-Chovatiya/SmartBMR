@@ -14,7 +14,9 @@
   "manufacturing_steps_section",
   "telemetry_dashboard",
   "process_log",
-  "amended_from"
+  "amended_from",
+  "supervisor_review_section",
+  "supervisor_investigation_remarks"
  ],
  "fields": [
   {
@@ -84,13 +86,23 @@
    "fieldname": "telemetry_dashboard",
    "fieldtype": "HTML",
    "label": "Telemetry Dashboard"
+  },
+  {
+   "fieldname": "supervisor_review_section",
+   "fieldtype": "Section Break",
+   "label": "Supervisor Review"
+  },
+  {
+   "fieldname": "supervisor_investigation_remarks",
+   "fieldtype": "Small Text",
+   "label": "Supervisor Investigation Remarks"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-15 12:46:58.664191",
+ "modified": "2026-07-18 19:58:33.126836",
  "modified_by": "Administrator",
  "module": "SmartBMR",
  "name": "Batch Manufacturing Record",

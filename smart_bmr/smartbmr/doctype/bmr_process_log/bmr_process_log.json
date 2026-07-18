@@ -15,9 +15,10 @@
  "fields": [
   {
    "fieldname": "step_number",
-   "fieldtype": "Int",
+   "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Step Number",
+   "options": "NORMAL\nANOMALY",
    "reqd": 1
   },
   {
@@ -53,7 +54,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-07-01 18:59:20.233121",
+ "modified": "2026-07-18 09:50:59.932384",
  "modified_by": "Administrator",
  "module": "SmartBMR",
  "name": "BMR Process Log",

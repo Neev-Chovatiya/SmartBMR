@@ -2,7 +2,10 @@ import frappe
 from frappe.model.document import Document
 
 class BatchManufacturingRecord(Document):
-    pass
+    def validate(self):
+        has_anomaly = any(str(row.step_number).strip() in ["ANOMALY", "0"] for row in self.process_log)
+        if has_anomaly and self.workflow_state == "Completed" and not self.supervisor_investigation_remarks:
+            frappe.throw("Supervisor Investigation Remarks are mandatory for anomalous batches.")
 
 def send_anomaly_alert(bmr_id, temperature):
     """Sends an automated email alert safely without breaking the main execution pipeline."""
