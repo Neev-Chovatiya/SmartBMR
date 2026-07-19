@@ -8,6 +8,11 @@ app_license = "mit"
 # Apps
 # ------------------
 
+# Print Formats
+# -------------
+# Automatically register standard app print formats with the framework
+standard_print_formats = ["Batch Manufacturing Record"]
+
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page

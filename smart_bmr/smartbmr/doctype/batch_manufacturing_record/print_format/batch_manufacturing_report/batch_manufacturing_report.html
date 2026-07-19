@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 12mm 12mm;
+        @bottom-right {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 8pt;
+            color: #718096;
+        }
+        @bottom-left {
+            content: "SmartBMR Automated System Record";
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 8pt;
+            color: #718096;
+        }
+    }
+    
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #2d3748;
+        margin: 0;
+        padding: 0;
+        font-size: 9.5pt;
+        line-height: 1.4;
+        background-color: #ffffff;
+    }
+    
+    .header-container {
+        border-bottom: 2px solid #2b6cb0;
+        padding-bottom: 6px;
+        margin-bottom: 15px;
+    }
+    
+    .company-title {
+        font-size: 16pt;
+        font-weight: bold;
+        color: #1a365d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+    
+    .doc-title {
+        font-size: 12pt;
+        color: #4a5568;
+        margin-top: 3px;
+        font-weight: 500;
+    }
+    
+    .meta-grid {
+        display: table;
+        width: 100%;
+        margin-bottom: 15px;
+        border: 1px solid #e2e8f0;
+        border-collapse: collapse;
+    }
+    
+    .meta-row {
+        display: table-row;
+    }
+    
+    .meta-cell {
+        display: table-cell;
+        padding: 6px 8px;
+        border: 1px solid #e2e8f0;
+        width: 25%;
+    }
+    
+    .meta-label {
+        font-size: 7.5pt;
+        text-transform: uppercase;
+        color: #718096;
+        font-weight: bold;
+        margin-bottom: 2px;
+    }
+    
+    .meta-value {
+        font-size: 9pt;
+        color: #1a202c;
+        font-weight: 500;
+    }
+    
+    section {
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        font-size: 11pt;
+        color: #1a365d;
+        border-left: 4px solid #2b6cb0;
+        padding-left: 8px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 5px;
+    }
+    
+    table.data-table th {
+        background-color: #2b6cb0;
+        color: #ffffff;
+        text-align: left;
+        padding: 6px 8px;
+        font-size: 8.5pt;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    table.data-table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 9pt;
+    }
+    
+    table.data-table tr:nth-child(even) {
+        background-color: #f7fafc;
+    }
+    
+    .badge-anomaly {
+        color: #e53e3e;
+        font-weight: bold;
+        background-color: #fff5f5;
+        padding: 1px 5px;
+        border-radius: 4px;
+        border: 1px solid #fed7d7;
+    }
+    
+    .badge-normal {
+        color: #38a169;
+        font-weight: bold;
+    }
+    
+    .remarks-box {
+        background-color: #f7fafc;
+        border-left: 4px solid #dd6b20;
+        padding: 10px 12px;
+        margin-top: 5px;
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .remarks-title {
+        font-weight: bold;
+        color: #c05621;
+        margin-bottom: 3px;
+        font-size: 9pt;
+    }
+    
+    .remarks-text {
+        font-style: italic;
+        color: #2d3748;
+        font-size: 9pt;
+    }
+    
+    .sign-section {
+        margin-top: 30px;
+        display: table;
+        width: 100%;
+        page-break-inside: avoid;
+    }
+    
+    .sign-column {
+        display: table-cell;
+        width: 50%;
+        padding-top: 30px;
+        text-align: center;
+    }
+    
+    .sign-line {
+        width: 70%;
+        margin: 0 auto 5px auto;
+        border-top: 1px solid #a0aec0;
+    }
+    
+    .sign-label {
+        font-size: 8.5pt;
+        color: #718096;
+    }
+</style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="company-title">SmartBMR Manufacturing Execution System</div>
+        <div class="doc-title">Official Batch Manufacturing Record (BMR)</div>
+    </div>
+
+    <div class="meta-grid">
+        <div class="meta-row">
+            <div class="meta-cell">
+                <div class="meta-label">Document ID</div>
+                <div class="meta-value">{{ doc.name }}</div>
+            </div>
+            <div class="meta-cell">
+                <div class="meta-label">Batch Number</div>
+                <div class="meta-value">{{ doc.batch_number or 'N/A' }}</div>
+            </div>
+            <div class="meta-cell">
+                <div class="meta-label">Master Formula</div>
+                <div class="meta-value">{{ doc.master_formula }}</div>
+            </div>
+            <div class="meta-cell">
+                <div class="meta-label">Target Item</div>
+                <div class="meta-value">{{ doc.target_item }}</div>
+            </div>
+        </div>
+        <div class="meta-row">
+            <div class="meta-cell">
+                <div class="meta-label">Workflow State</div>
+                <div class="meta-value"><strong>{{ doc.workflow_state }}</strong></div>
+            </div>
+            <div class="meta-cell">
+                <div class="meta-label">Min/Max Safe Limits</div>
+                <div class="meta-value">36.0°C / 39.0°C</div>
+            </div>
+            <div class="meta-cell">
+                <div class="meta-label">Verification Type</div>
+                <div class="meta-value">QA Regulated Report</div>
+            </div>
+            <div class="meta-cell">
+                <div class="meta-label">Generated On</div>
+                <div class="meta-value">{{ frappe.utils.today() }}</div>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <h2>1. Material Consumption Ledger</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">No.</th>
+                    <th style="width: 50%;">Raw Material Description</th>
+                    <th style="width: 20%;">Required Qty</th>
+                    <th style="width: 20%;">Actual Qty Used</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if doc.materials_log %}
+                    {% for row in doc.materials_log %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ row.raw_material }}</td>
+                        <td>{{ row.required_qty }}</td>
+                        <td>{{ row.actual_qty_used }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #718096;">No raw materials logged for this batch.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>2. Process Telemetry Log (IoT Audit Trail)</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Seq</th>
+                    <th style="width: 20%;">Log Condition</th>
+                    <th style="width: 50%;">System Instructions / Flag Context</th>
+                    <th style="width: 20%;">Actual Temperature</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if doc.process_log %}
+                    {% for row in doc.process_log %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            {% if row.step_number in ['ANOMALY', '0', 0] %}
+                                <span class="badge-anomaly">ANOMALY</span>
+                            {% else %}
+                                <span class="badge-normal">NORMAL</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ row.instructions }}</td>
+                        <td {% if row.step_number in ['ANOMALY', '0', 0] %}style="color: #e53e3e; font-weight: 600;"{% endif %}>
+                            {{ row.actual_temp_reading }} °C
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #718096;">No telemetry data logged during production phase.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>3. Quality Assurance Compliance Sign-off</h2>
+        <div class="remarks-box">
+            <div class="remarks-title">Supervisor Investigation Remarks:</div>
+            <div class="remarks-text">
+                {% if doc.supervisor_investigation_remarks %}
+                    "{{ doc.supervisor_investigation_remarks }}"
+                {% else %}
+                    {% set anomalous = namespace(found=false) %}
+                    {% for row in doc.process_log %}
+                        {% if row.step_number in ['ANOMALY', '0', 0] %}
+                            {% set anomalous.found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if anomalous.found %}
+                        <span style="color: #e53e3e; font-weight: bold;">
+                            CRITICAL EXCURSION DETECTED: Pending official supervisor investigation and remarks before final sign-off.
+                        </span>
+                    {% else %}
+                        "No process excursions occurred. Production parameters remained entirely inside safe limits."
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <div class="sign-section">
+        <div class="sign-column">
+            <div class="sign-line"></div>
+            <div class="sign-label">Production Supervisor Signature</div>
+        </div>
+        <div class="sign-column">
+            <div class="sign-line"></div>
+            <div class="sign-label">Quality Assurance Manager Sign-off</div>
+        </div>
+    </div>
+
+</body>
+</html>
