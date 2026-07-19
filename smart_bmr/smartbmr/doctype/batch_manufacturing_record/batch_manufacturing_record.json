@@ -15,6 +15,12 @@
   "telemetry_dashboard",
   "process_log",
   "amended_from",
+  "quality_and_process_performance_kpis_section",
+  "peak_temperature",
+  "column_break_sdtg",
+  "excursion_duration",
+  "column_break_swqy",
+  "batch_stability_score",
   "supervisor_review_section",
   "supervisor_investigation_remarks"
  ],
@@ -96,13 +102,44 @@
    "fieldname": "supervisor_investigation_remarks",
    "fieldtype": "Small Text",
    "label": "Supervisor Investigation Remarks"
+  },
+  {
+   "fieldname": "quality_and_process_performance_kpis_section",
+   "fieldtype": "Section Break",
+   "label": "Quality And Process Performance KPIs"
+  },
+  {
+   "fieldname": "peak_temperature",
+   "fieldtype": "Float",
+   "label": "Peak Temperature",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_sdtg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "excursion_duration",
+   "fieldtype": "Int",
+   "label": "Excursion Duration",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_swqy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "batch_stability_score",
+   "fieldtype": "Percent",
+   "label": "Batch Stability Score",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-18 19:58:33.126836",
+ "modified": "2026-07-19 14:04:23.307420",
  "modified_by": "Administrator",
  "module": "SmartBMR",
  "name": "Batch Manufacturing Record",

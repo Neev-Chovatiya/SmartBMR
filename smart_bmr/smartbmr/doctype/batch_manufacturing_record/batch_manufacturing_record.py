@@ -1,3 +1,6 @@
+# Copyright (c) 2026, Neev Chovatiya and contributors
+# For license information, please see license.txt
+
 import frappe
 from frappe.model.document import Document
 
@@ -6,6 +9,37 @@ class BatchManufacturingRecord(Document):
         has_anomaly = any(str(row.step_number).strip() in ["ANOMALY", "0"] for row in self.process_log)
         if has_anomaly and self.workflow_state == "Completed" and not self.supervisor_investigation_remarks:
             frappe.throw("Supervisor Investigation Remarks are mandatory for anomalous batches.")
+            
+        self.calculate_quality_metrics()
+
+    def calculate_quality_metrics(self):
+        min_limit = 36.0
+        max_limit = 39.0
+        
+        highest_temp = 0.0
+        if self.process_log:
+            for row in self.process_log:
+                temp = float(row.actual_temp_reading or 0.0)
+                if temp > highest_temp:
+                    highest_temp = temp
+        self.peak_temperature = round(highest_temp, 3)
+
+        total_raw_pings = frappe.db.count("IoT Temperature Log", filters={"batch_record_id": self.name})
+        
+        raw_anomalies = frappe.db.sql("""
+            SELECT COUNT(*) 
+            FROM `tabIoT Temperature Log` 
+            WHERE batch_record_id = %s 
+              AND (temperature < %s OR temperature > %s)
+        """, (self.name, min_limit, max_limit))[0][0] or 0
+
+        self.excursion_duration = int(raw_anomalies)
+
+        if total_raw_pings > 0:
+            stability = (float(total_raw_pings - raw_anomalies) / float(total_raw_pings)) * 100.0
+            self.batch_stability_score = round(stability, 3)
+        else:
+            self.batch_stability_score = 100.0
 
 def send_anomaly_alert(bmr_id, temperature):
     """Sends an automated email alert safely without breaking the main execution pipeline."""
@@ -34,6 +68,7 @@ def send_anomaly_alert(bmr_id, temperature):
             title="SmartBMR Mail System Alert Skipped",
             message=f"Email alert triggered for BMR {bmr_id} ({temperature}°C), but default outgoing email account is not set up in the desk."
         )
+
 
 @frappe.whitelist(allow_guest=True)
 def log_machine_temperature(bmr_id, temp_reading):
@@ -92,6 +127,9 @@ def log_machine_temperature(bmr_id, temp_reading):
             "maximum_temp": MAX_SAFE_TEMP,
             "actual_temp_reading": current_temp
         })
+        
+        doc.calculate_quality_metrics()
+        
         doc.save(ignore_permissions=True)
         frappe.db.commit()
         return {"status": "logged", "message": f"Raw log captured & State tracked: {log_step} at {current_temp}°C"}
